@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">BlogExplorer</string>
+    <string name="error">Error</string>
+    <string name="fetch_posts">Fetch posts</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="update_put">Update (PUT)</string>
+    <string name="update_patch">Update (PATCH)</string>
+    <string name="delete">Delete</string>
+    <string name="status">Status</string>
+    <string name="updated_title">Updated title</string>
+    <string name="updated_content">Updated content</string>
+    <string name="website">Website</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="name">Name</string>
+    <string name="author_information">Author Information</string>
+    <string name="post_title">Post Title</string>
+    <string name="edit">Edit</string>
+</resources>
