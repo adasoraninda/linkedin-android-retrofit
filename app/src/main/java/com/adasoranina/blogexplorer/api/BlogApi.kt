@@ -2,55 +2,56 @@ package com.adasoranina.blogexplorer.api
 
 import com.adasoranina.blogexplorer.models.Post
 import com.adasoranina.blogexplorer.models.User
+import retrofit2.Call
 import retrofit2.http.*
 
 interface BlogApi {
 
     @GET("posts")
-    suspend fun getPosts(
+    fun getPosts(
         @Query("_page") page: Int = 1,
         @Query("_limit") limit: Int = 10
-    ): List<Post>
+    ): Call<List<Post>>
 
     @Headers("Platform: Android")
     @GET("posts/{id}")
-    suspend fun getPost(
+    fun getPost(
         @Path("id") postId: Int
-    ): Post
+    ): Call<Post>
 
     @GET("users/{id}")
-    suspend fun getUser(
+    fun getUser(
         @Path("id") userId: Int
-    ): User
+    ): Call<User>
 
     @PUT("posts/{id}")
-    suspend fun updatePost(
+    fun updatePost(
         @Path("id") postId: Int,
         @Body post: Post
-    ): Post
+    ): Call<Post>
 
     @PATCH("posts/{id}")
-    suspend fun patchPost(
+    fun patchPost(
         @Path("id") postId: Int,
         @Body params: Map<String, String>
-    ): Post
+    ): Call<Post>
 
     @DELETE("posts/{id}")
-    suspend fun deletePost(
+    fun deletePost(
         @Header("Auth-Token") auth: String,
         @Path("id") postId: Int
-    )
+    ): Call<Unit>
 
     @POST("posts/")
-    suspend fun createPost(
+    fun createPost(
         @Body post: Post
-    ): Post
+    ): Call<Post>
 
     @FormUrlEncoded
     @POST("posts/")
-    suspend fun createPostUrlEncode(
+    fun createPostUrlEncode(
         @Field("userId") userId: Int,
         @Field("title") title: String,
         @Field("body") body: String
-    ): Post
+    ): Call<Post>
 }

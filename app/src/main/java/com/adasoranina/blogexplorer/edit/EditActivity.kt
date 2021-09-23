@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.adasoranina.blogexplorer.MainActivity
+import com.adasoranina.blogexplorer.main.MainActivity
 import com.adasoranina.blogexplorer.api.RetrofitInstance
 import com.adasoranina.blogexplorer.databinding.ActivityEditBinding
 import com.adasoranina.blogexplorer.detail.EXTRA_POST
@@ -119,18 +119,6 @@ class EditActivity : AppCompatActivity() {
         binding?.btnDelete?.setOnClickListener {
             Log.i(TAG, "DELETE")
             viewModel.deletePost(postId = post.id)
-        }
-    }
-
-    private fun createPost() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val localNewPost = Post(2, 32, "My post title", "Body of post id #32")
-            val newPost = RetrofitInstance.api.createPost(localNewPost)
-            Log.i(TAG, "New post: $newPost")
-
-            val urlEncodePost =
-                RetrofitInstance.api.createPostUrlEncode(4, "New title", "Post content")
-            Log.i(TAG, "URL encoded post: $urlEncodePost")
         }
     }
 

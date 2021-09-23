@@ -13,7 +13,14 @@ private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 object RetrofitInstance {
 
     private val client = OkHttpClient.Builder()
-        .addInterceptor(HeaderInterceptor())
+        //.addInterceptor(HeaderInterceptor())
+        .addInterceptor { chain ->
+            val request = chain.request().newBuilder()
+                .addHeader("User-Agent", "Blog-Explorer-Sample")
+                .build()
+
+            chain.proceed(request)
+        }
         .build()
 
     private val moshi = Moshi.Builder()

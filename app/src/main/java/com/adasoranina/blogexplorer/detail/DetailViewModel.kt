@@ -4,11 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.adasoranina.blogexplorer.api.RetrofitInstance
 import com.adasoranina.blogexplorer.models.Post
 import com.adasoranina.blogexplorer.models.User
-import kotlinx.coroutines.launch
+import com.adasoranina.blogexplorer.utils.fetch
 
 private const val TAG = "DetailViewModel"
 
@@ -26,20 +25,26 @@ class DetailViewModel : ViewModel() {
     val user: LiveData<User>
         get() = _user
 
-
     fun getPostDetail(postId: Int) {
-        val api = RetrofitInstance.api
-        // Coroutine style
-        viewModelScope.launch {
-            _isLoading.value = true
-            val fetchedPost = api.getPost(postId)
-            val fetchedUser = api.getUser(fetchedPost.userId)
-            Log.i(TAG, "Fetched user: $fetchedUser")
+        _isLoading.value = true
+        RetrofitInstance.api.getPost(postId).fetch({ post ->
+            if (post != null) {
+                RetrofitInstance.api.getUser(post.userId).fetch({ fetchedUser ->
+                    _isLoading.value = true
+                    Log.i(TAG, "Fetched user: $fetchedUser")
 
-            _post.value = fetchedPost
-            _user.value = fetchedUser
+                    _post.value = post
+                    _user.value = fetchedUser
+                    _isLoading.value = false
+                }, { error ->
+                    Log.e(TAG, "Exception: ${error.message}")
+                    _isLoading.value = false
+                })
+            }
+        }, { error ->
+            Log.e(TAG, "Exception: ${error.message}")
             _isLoading.value = false
-        }
-
+        })
     }
+
 }
