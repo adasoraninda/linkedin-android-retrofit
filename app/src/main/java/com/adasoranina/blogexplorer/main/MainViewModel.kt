@@ -27,21 +27,25 @@ class MainViewModel : ViewModel() {
     private var currentPage = 1
 
     fun getPost() {
-        Log.i(TAG, "Query with page $currentPage")
-        _errorMessage.value = null
-        _isLoading.value = true
+        RetrofitInstance.api.getPosts(currentPage).fetch({
+            Log.i(TAG, "Query with page $currentPage")
+            _errorMessage.value = null
+            _isLoading.value = true
+        }, { response, error ->
 
-        RetrofitInstance.api.getPosts(currentPage).fetch({ response ->
+            if (error != null) {
+                Log.e(TAG, "Exception ${error.message}")
+                _errorMessage.value = error.message
+            }
+
+            if (response != null) {
+                Log.i(TAG, "Fetched posts: $response")
+                currentPage += 1
+                val currentPosts = _posts.value ?: emptyList()
+                _posts.value = currentPosts + response
+            }
+
             _isLoading.value = false
-            val fetchedPosts = response ?: emptyList()
-            currentPage += 1
-            Log.i(TAG, "Fetched posts: $fetchedPosts")
-            val currentPosts = _posts.value ?: emptyList()
-            _posts.value = currentPosts + fetchedPosts
-        }, { error ->
-            _isLoading.value = false
-            _errorMessage.value = error.message
-            Log.e(TAG, "Exception ${error.message}")
         })
     }
 

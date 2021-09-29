@@ -20,3 +20,21 @@ fun <Result : Any> Call<Result>.fetch(
         }
     })
 }
+
+fun <Result : Any> Call<Result>.fetch(
+    prepare: () -> Unit,
+    result: (response: Result?, error: Throwable?) -> Unit
+) {
+    prepare()
+    enqueue(object : Callback<Result> {
+        override fun onResponse(call: Call<Result>, response: Response<Result>) {
+            if (response.isSuccessful && response.code() == 200 && response.body() != null) {
+                result(response.body()!!, null)
+            }
+        }
+
+        override fun onFailure(call: Call<Result>, t: Throwable) {
+            result(null, t)
+        }
+    })
+}
