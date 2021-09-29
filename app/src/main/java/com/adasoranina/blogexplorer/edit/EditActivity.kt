@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.adasoranina.blogexplorer.MainActivity
+import com.adasoranina.blogexplorer.main.MainActivity
 import com.adasoranina.blogexplorer.api.RetrofitInstance
 import com.adasoranina.blogexplorer.databinding.ActivityEditBinding
 import com.adasoranina.blogexplorer.detail.EXTRA_POST

@@ -1,4 +1,4 @@
-package com.adasoranina.blogexplorer
+package com.adasoranina.blogexplorer.main
 
 import android.util.Log
 import androidx.lifecycle.LiveData
